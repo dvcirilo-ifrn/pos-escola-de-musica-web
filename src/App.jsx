@@ -9,6 +9,7 @@ import { Inicio } from './pages/Inicio'
 import { Login } from './pages/Login'
 import { NaoEncontrado } from './pages/NaoEncontrado'
 import { Perfil } from './pages/Perfil'
+import { Professores } from './pages/Professores'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/inicio" element={<Inicio />} />
             <Route path="/perfil" element={<Perfil />} />
+            <Route path="/professores" element={<Professores />} />
             <Route path="*" element={<NaoEncontrado />} />
           </Route>
         </Routes>
