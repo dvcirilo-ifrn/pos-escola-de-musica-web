@@ -2,6 +2,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { AuthProvider } from './AuthProvider'
 import { Layout } from './components/Layout'
 import { Publica } from './components/Publica'
+import { AConfirmar } from './pages/admin/AConfirmar'
+import { Agenda } from './pages/admin/Agenda'
 import { Confirmar } from './pages/agendar/Confirmar'
 import { EscolherHorario } from './pages/agendar/EscolherHorario'
 import { EscolherProfessor } from './pages/agendar/EscolherProfessor'
@@ -42,6 +44,8 @@ function App() {
             <Route path="/aulas/:id" element={<Aula />} />
             <Route path="/aulas/:id/avaliar" element={<Avaliar />} />
             <Route path="/perfil" element={<Perfil />} />
+            <Route path="/admin/agenda" element={<Agenda />} />
+            <Route path="/admin/confirmar" element={<AConfirmar />} />
             <Route path="/professores" element={<Professores />} />
             <Route path="/professores/:id" element={<Professor />} />
             <Route path="*" element={<NaoEncontrado />} />

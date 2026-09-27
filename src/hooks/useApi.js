@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react'
 import { api } from '../api/client'
 
 // Baseado no useData de https://react.dev/learn/reusing-logic-with-custom-hooks
-export function useApi(caminho) {
+export function useApi(caminho, buscar = api) {
   const [resposta, setResposta] = useState({ caminho: null })
   const [tentativa, setTentativa] = useState(0)
 
   useEffect(() => {
     let ignore = false
-    api(caminho)
+    buscar(caminho)
       .then(dados => {
         if (!ignore) setResposta({ caminho, dados })
       })
@@ -18,7 +18,7 @@ export function useApi(caminho) {
     return () => {
       ignore = true
     }
-  }, [caminho, tentativa])
+  }, [caminho, buscar, tentativa])
 
   function recarregar() {
     setResposta({ caminho: null })

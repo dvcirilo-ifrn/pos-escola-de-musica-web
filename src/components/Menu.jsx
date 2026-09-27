@@ -20,6 +20,12 @@ export function Menu() {
             <Nav className="me-auto">
               <Nav.Link as={NavLink} to="/admin/agenda">Agenda</Nav.Link>
               <Nav.Link as={NavLink} to="/admin/confirmar">A confirmar</Nav.Link>
+              <NavDropdown title="Cadastros">
+                <NavDropdown.Item as={Link} to="/admin/negocio">Dados do negócio</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/admin/recursos">Professores e salas</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/admin/servicos">Serviços</NavDropdown.Item>
+              </NavDropdown>
+              <Nav.Link as={NavLink} to="/admin/avaliacoes">Avaliações</Nav.Link>
             </Nav>
           ) : (
             <Nav className="me-auto">

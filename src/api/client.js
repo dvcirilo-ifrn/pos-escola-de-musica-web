@@ -53,6 +53,18 @@ export async function api(caminho, opcoes) {
   return dados
 }
 
+// junta os resultados de todas as páginas de uma lista
+export async function buscarTodas(caminho) {
+  let itens = []
+  let proxima = caminho
+  while (proxima) {
+    const dados = await api(proxima)
+    itens = [...itens, ...dados.results]
+    proxima = dados.next
+  }
+  return itens
+}
+
 export function mensagemDeErro(erro) {
   const dados = erro.dados
   if (!erro.status) return 'Não foi possível falar com o servidor.'

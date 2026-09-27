@@ -1,8 +1,9 @@
-import { Alert, Button, Card, Form, InputGroup } from 'react-bootstrap'
+import { Alert, Button, Card } from 'react-bootstrap'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { Carregando } from '../../components/Carregando'
 import { Erro } from '../../components/Erro'
 import { Foto } from '../../components/Foto'
+import { SeletorData } from '../../components/SeletorData'
 import { formatarHora, hoje, somarDias } from '../../formatos'
 import { useApi } from '../../hooks/useApi'
 
@@ -42,15 +43,7 @@ export function EscolherHorario() {
 
       {location.state?.erro && <Alert variant="warning">{location.state.erro}</Alert>}
 
-      <InputGroup className="mb-4">
-        <Button variant="outline-secondary" onClick={() => mudarData(somarDias(data, -1))} disabled={data <= hoje()}>
-          <i className="bi bi-chevron-left"></i>
-        </Button>
-        <Form.Control type="date" value={data} min={hoje()} onChange={e => mudarData(e.target.value)} />
-        <Button variant="outline-secondary" onClick={() => mudarData(somarDias(data, 1))}>
-          <i className="bi bi-chevron-right"></i>
-        </Button>
-      </InputGroup>
+      <SeletorData data={data} onChange={mudarData} min={hoje()} />
 
       {erro && <Erro erro={erro} tentarDeNovo={recarregar} />}
       {carregando && <Carregando />}

@@ -74,6 +74,16 @@ export function Aula() {
               <i className="bi bi-star"></i> Avaliar
             </Button>
           )}
+          {pode('api.confirmar_agendamento') && aula.status === 'solicitado' && (
+            <Button variant="success" onClick={() => executar('confirmar')}>
+              <i className="bi bi-check-lg"></i> Confirmar
+            </Button>
+          )}
+          {pode('api.concluir_agendamento') && aula.status === 'confirmado' && (
+            <Button variant="success" onClick={() => executar('concluir')}>
+              <i className="bi bi-check2-all"></i> Concluir
+            </Button>
+          )}
           {pode('api.cancelar_agendamento') && ativa && (
             <Button variant="outline-danger" className="ms-auto" onClick={() => setCancelando(true)}>
               Cancelar
