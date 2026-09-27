@@ -8,7 +8,7 @@ export function Menu() {
   const organizacao = usuario.organizacao
 
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar expand="lg" bg="primary" data-bs-theme="dark">
       <Container>
         <Navbar.Brand as={Link} to={inicio}>
           <Image src="/favicon.png" height={32} className="me-2" />
