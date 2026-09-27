@@ -18,7 +18,7 @@ export function Agenda() {
     caminho += `&recurso=${recurso}`
   }
   const aulas = useApi(caminho, buscarTodas)
-  const recursos = useApi('/recursos/')
+  const recursos = useApi('/recursos/', buscarTodas)
 
   function mudar(nome, valor) {
     const novos = new URLSearchParams(params)
@@ -36,7 +36,7 @@ export function Agenda() {
         <Col md={6}>
           <Form.Select className="mb-4" value={recurso} onChange={e => mudar('recurso', e.target.value)}>
             <option value="">Todos os professores e salas</option>
-            {recursos.dados?.results.map(r => (
+            {recursos.dados?.map(r => (
               <option key={r.id} value={r.id}>{r.nome}</option>
             ))}
           </Form.Select>

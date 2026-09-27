@@ -1,25 +1,24 @@
 import { Alert, Button, Card, Col, Row } from 'react-bootstrap'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Carregando } from '../../components/Carregando'
+import { CarregarMais } from '../../components/CarregarMais'
 import { Erro } from '../../components/Erro'
 import { Foto } from '../../components/Foto'
-import { useApi } from '../../hooks/useApi'
+import { usePaginado } from '../../hooks/useApi'
 
 export function EscolherProfessor() {
   const [params] = useSearchParams()
   const servico = params.get('servico')
-  const { dados, erro, carregando, recarregar } = useApi(`/recursos/?servicos=${servico}`)
+  const recursos = usePaginado(`/recursos/?servicos=${servico}`)
 
-  if (erro) return <Erro erro={erro} tentarDeNovo={recarregar} />
-  if (carregando) return <Carregando />
-
-  const recursos = dados.results
+  if (recursos.erro) return <Erro erro={recursos.erro} tentarDeNovo={recursos.recarregar} />
+  if (recursos.carregando && recursos.itens.length === 0) return <Carregando />
 
   return (
     <>
       <small className="text-secondary">Passo 2 de 4</small>
       <h2 className="mb-4">Com quem ou onde?</h2>
-      {recursos.length === 0 ? (
+      {recursos.itens.length === 0 ? (
         <Alert variant="info">Nenhum professor ou sala realiza este serviço.</Alert>
       ) : (
         <Row xs={1} md={2} lg={3} className="g-4">
@@ -35,7 +34,7 @@ export function EscolherProfessor() {
               </Card.Body>
             </Card>
           </Col>
-          {recursos.map(recurso => (
+          {recursos.itens.map(recurso => (
             <Col key={recurso.id}>
               <Card className="h-100">
                 <Card.Body className="d-flex gap-3">
@@ -56,6 +55,7 @@ export function EscolherProfessor() {
           ))}
         </Row>
       )}
+      {recursos.carregando ? <Carregando /> : <CarregarMais lista={recursos} />}
     </>
   )
 }

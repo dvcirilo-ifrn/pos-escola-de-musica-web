@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Col, Form, ListGroup, Row } from 'react-bootstrap'
+import { buscarTodas } from '../../api/client'
 import { Avaliacao } from '../../components/Avaliacao'
 import { Carregando } from '../../components/Carregando'
 import { CarregarMais } from '../../components/CarregarMais'
@@ -9,7 +10,7 @@ import { useApi, usePaginado } from '../../hooks/useApi'
 export function Avaliacoes() {
   const [recurso, setRecurso] = useState('')
   const [nota, setNota] = useState('')
-  const recursos = useApi('/recursos/')
+  const recursos = useApi('/recursos/', buscarTodas)
 
   const filtros = new URLSearchParams()
   if (recurso) filtros.set('recurso', recurso)
@@ -23,7 +24,7 @@ export function Avaliacoes() {
         <Col md={8}>
           <Form.Select value={recurso} onChange={e => setRecurso(e.target.value)}>
             <option value="">Todos os professores e salas</option>
-            {recursos.dados?.results.map(r => (
+            {recursos.dados?.map(r => (
               <option key={r.id} value={r.id}>{r.nome}</option>
             ))}
           </Form.Select>

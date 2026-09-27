@@ -1,22 +1,17 @@
 import { Alert, Card, Col, Row } from 'react-bootstrap'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Carregando } from '../../components/Carregando'
+import { CarregarMais } from '../../components/CarregarMais'
 import { Erro } from '../../components/Erro'
 import { formatarPreco } from '../../formatos'
-import { useApi } from '../../hooks/useApi'
+import { usePaginado } from '../../hooks/useApi'
 
 export function EscolherServico() {
   const [params] = useSearchParams()
   const recurso = params.get('recurso')
-  const { dados, erro, carregando, recarregar } = useApi('/servicos/')
+  const servicos = usePaginado(recurso ? `/servicos/?recursos=${recurso}` : '/servicos/')
 
-  if (erro) return <Erro erro={erro} tentarDeNovo={recarregar} />
-  if (carregando) return <Carregando />
-
-  let servicos = dados.results
-  if (recurso) {
-    servicos = servicos.filter(servico => servico.recursos.includes(Number(recurso)))
-  }
+  if (servicos.erro) return <Erro erro={servicos.erro} tentarDeNovo={servicos.recarregar} />
 
   function proximoPasso(servico) {
     if (recurso) {
@@ -29,9 +24,9 @@ export function EscolherServico() {
     <>
       <small className="text-secondary">Passo 1 de 4</small>
       <h2 className="mb-4">Qual serviço?</h2>
-      {servicos.length === 0 && <Alert variant="info">Nenhum serviço disponível.</Alert>}
+      {!servicos.carregando && servicos.itens.length === 0 && <Alert variant="info">Nenhum serviço disponível.</Alert>}
       <Row xs={1} md={2} lg={3} className="g-4">
-        {servicos.map(servico => (
+        {servicos.itens.map(servico => (
           <Col key={servico.id}>
             <Card as={Link} to={proximoPasso(servico)} className="h-100 text-decoration-none">
               {servico.imagem ? (
@@ -53,6 +48,7 @@ export function EscolherServico() {
           </Col>
         ))}
       </Row>
+      {servicos.carregando ? <Carregando /> : <CarregarMais lista={servicos} />}
     </>
   )
 }

@@ -1,5 +1,6 @@
 import { Badge, Button, Card, ListGroup } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
+import { buscarTodas } from '../api/client'
 import { useAuth } from '../AuthContext'
 import { Avaliacao } from '../components/Avaliacao'
 import { Carregando } from '../components/Carregando'
@@ -12,7 +13,7 @@ export function Professor() {
   const { id } = useParams()
   const { pode } = useAuth()
   const recurso = useApi(`/recursos/${id}/`)
-  const servicos = useApi('/servicos/')
+  const servicos = useApi(`/servicos/?recursos=${id}`, buscarTodas)
   const avaliacoes = usePaginado(`/avaliacoes/?recurso=${id}`)
 
   if (recurso.erro) return <Erro erro={recurso.erro} tentarDeNovo={recurso.recarregar} />
@@ -20,7 +21,6 @@ export function Professor() {
   if (recurso.carregando || servicos.carregando) return <Carregando />
 
   const { nome, bio, foto } = recurso.dados
-  const oferecidos = servicos.dados.results.filter(s => recurso.dados.servicos.includes(s.id))
 
   return (
     <>
@@ -31,7 +31,7 @@ export function Professor() {
             <h2>{nome}</h2>
             <p className="text-secondary">{bio}</p>
             <div className="d-flex flex-wrap gap-1 mb-3">
-              {oferecidos.map(servico => (
+              {servicos.dados.map(servico => (
                 <Badge key={servico.id} bg="secondary">{servico.nome}</Badge>
               ))}
             </div>
