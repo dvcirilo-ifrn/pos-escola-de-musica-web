@@ -4,10 +4,13 @@ import { Layout } from './components/Layout'
 import { Publica } from './components/Publica'
 import { AConfirmar } from './pages/admin/AConfirmar'
 import { Agenda } from './pages/admin/Agenda'
+import { Avaliacoes } from './pages/admin/Avaliacoes'
 import { Horarios } from './pages/admin/Horarios'
 import { Negocio } from './pages/admin/Negocio'
 import { EditarRecurso, NovoRecurso } from './pages/admin/Recurso'
 import { Recursos } from './pages/admin/Recursos'
+import { EditarServico, NovoServico } from './pages/admin/Servico'
+import { Servicos } from './pages/admin/Servicos'
 import { Confirmar } from './pages/agendar/Confirmar'
 import { EscolherHorario } from './pages/agendar/EscolherHorario'
 import { EscolherProfessor } from './pages/agendar/EscolherProfessor'
@@ -55,6 +58,10 @@ function App() {
             <Route path="/admin/recursos/novo" element={<NovoRecurso />} />
             <Route path="/admin/recursos/:id" element={<EditarRecurso />} />
             <Route path="/admin/recursos/:id/horarios" element={<Horarios />} />
+            <Route path="/admin/servicos" element={<Servicos />} />
+            <Route path="/admin/servicos/novo" element={<NovoServico />} />
+            <Route path="/admin/servicos/:id" element={<EditarServico />} />
+            <Route path="/admin/avaliacoes" element={<Avaliacoes />} />
             <Route path="/professores" element={<Professores />} />
             <Route path="/professores/:id" element={<Professor />} />
             <Route path="*" element={<NaoEncontrado />} />
