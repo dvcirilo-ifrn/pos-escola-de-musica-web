@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { api, mensagemDeErro } from '../api/client'
 import { useAuth } from '../AuthContext'
 import { Carregando } from '../components/Carregando'
-import { Confirmacao } from '../components/Confirmacao'
+import { ConfirmarAcao } from '../components/ConfirmarAcao'
 import { Erro } from '../components/Erro'
 import { Estrelas } from '../components/Estrelas'
 import { StatusAula } from '../components/StatusAula'
@@ -17,7 +17,7 @@ export function Aula() {
   const { pode } = useAuth()
   const { dados: aula, erro, carregando, recarregar } = useApi(`/agendamentos/${id}/`)
   const [erroAcao, setErroAcao] = useState(null)
-  const [cancelando, setCancelando] = useState(false)
+  const [acao, setAcao] = useState(null)
 
   if (erro) return <Erro erro={erro} tentarDeNovo={recarregar} />
   if (carregando) return <Carregando />
@@ -35,9 +35,9 @@ export function Aula() {
     }
   }
 
-  function cancelar() {
-    setCancelando(false)
-    executar('cancelar')
+  function confirmarAcao() {
+    executar(acao)
+    setAcao(null)
   }
 
   return (
@@ -75,31 +75,23 @@ export function Aula() {
             </Button>
           )}
           {pode('api.confirmar_agendamento') && aula.status === 'solicitado' && (
-            <Button variant="success" onClick={() => executar('confirmar')}>
+            <Button variant="success" onClick={() => setAcao('confirmar')}>
               <i className="bi bi-check-lg"></i> Confirmar
             </Button>
           )}
           {pode('api.concluir_agendamento') && aula.status === 'confirmado' && (
-            <Button variant="success" onClick={() => executar('concluir')}>
+            <Button variant="success" onClick={() => setAcao('concluir')}>
               <i className="bi bi-check2-all"></i> Concluir
             </Button>
           )}
           {pode('api.cancelar_agendamento') && ativa && (
-            <Button variant="outline-danger" className="ms-auto" onClick={() => setCancelando(true)}>
+            <Button variant="outline-danger" className="ms-auto" onClick={() => setAcao('cancelar')}>
               Cancelar
             </Button>
           )}
         </div>
       </Card.Body>
-      <Confirmacao
-        show={cancelando}
-        titulo="Cancelar aula"
-        mensagem="Deseja mesmo cancelar esta aula?"
-        textoConfirmar="Cancelar aula"
-        variante="danger"
-        onConfirmar={cancelar}
-        onFechar={() => setCancelando(false)}
-      />
+      <ConfirmarAcao acao={acao} onConfirmar={confirmarAcao} onFechar={() => setAcao(null)} />
     </Card>
   )
 }

@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom'
 import { api, mensagemDeErro } from '../../api/client'
 import { Carregando } from '../../components/Carregando'
 import { CarregarMais } from '../../components/CarregarMais'
-import { Confirmacao } from '../../components/Confirmacao'
+import { ConfirmarAcao } from '../../components/ConfirmarAcao'
 import { Erro } from '../../components/Erro'
 import { formatarData, formatarHora } from '../../formatos'
 import { usePaginado } from '../../hooks/useApi'
 
 export function AConfirmar() {
   const pedidos = usePaginado('/agendamentos/?status=solicitado')
-  const [cancelando, setCancelando] = useState(null)
+  const [pendente, setPendente] = useState(null)
   const [erroAcao, setErroAcao] = useState(null)
 
   async function executar(id, acao) {
@@ -24,9 +24,9 @@ export function AConfirmar() {
     }
   }
 
-  function cancelar() {
-    executar(cancelando, 'cancelar')
-    setCancelando(null)
+  function confirmarAcao() {
+    executar(pendente.id, pendente.acao)
+    setPendente(null)
   }
 
   if (pedidos.erro) return <Erro erro={pedidos.erro} tentarDeNovo={pedidos.recarregar} />
@@ -51,10 +51,10 @@ export function AConfirmar() {
               {aula.observacoes && <small className="fst-italic">{aula.observacoes}</small>}
             </div>
             <div className="d-flex gap-2">
-              <Button variant="success" size="sm" onClick={() => executar(aula.id, 'confirmar')}>
+              <Button variant="success" size="sm" onClick={() => setPendente({ id: aula.id, acao: 'confirmar' })}>
                 <i className="bi bi-check-lg"></i> Confirmar
               </Button>
-              <Button variant="outline-danger" size="sm" onClick={() => setCancelando(aula.id)}>
+              <Button variant="outline-danger" size="sm" onClick={() => setPendente({ id: aula.id, acao: 'cancelar' })}>
                 Cancelar
               </Button>
             </div>
@@ -63,14 +63,10 @@ export function AConfirmar() {
       </ListGroup>
       {pedidos.carregando ? <Carregando /> : <CarregarMais lista={pedidos} />}
 
-      <Confirmacao
-        show={cancelando !== null}
-        titulo="Cancelar pedido"
-        mensagem="Deseja mesmo cancelar este pedido de aula?"
-        textoConfirmar="Cancelar pedido"
-        variante="danger"
-        onConfirmar={cancelar}
-        onFechar={() => setCancelando(null)}
+      <ConfirmarAcao
+        acao={pendente?.acao ?? null}
+        onConfirmar={confirmarAcao}
+        onFechar={() => setPendente(null)}
       />
     </>
   )
