@@ -7,6 +7,7 @@ import { Entrada } from './pages/Entrada'
 import { EsqueciSenha } from './pages/EsqueciSenha'
 import { Inicio } from './pages/Inicio'
 import { Login } from './pages/Login'
+import { NaoEncontrado } from './pages/NaoEncontrado'
 import { Perfil } from './pages/Perfil'
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/inicio" element={<Inicio />} />
             <Route path="/perfil" element={<Perfil />} />
+            <Route path="*" element={<NaoEncontrado />} />
           </Route>
         </Routes>
       </BrowserRouter>
