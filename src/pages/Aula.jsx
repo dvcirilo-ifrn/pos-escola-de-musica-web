@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { api, mensagemDeErro } from '../api/client'
 import { useAuth } from '../AuthContext'
 import { Carregando } from '../components/Carregando'
+import { Confirmacao } from '../components/Confirmacao'
 import { Erro } from '../components/Erro'
 import { Estrelas } from '../components/Estrelas'
 import { StatusAula } from '../components/StatusAula'
@@ -16,6 +17,7 @@ export function Aula() {
   const { pode } = useAuth()
   const { dados: aula, erro, carregando, recarregar } = useApi(`/agendamentos/${id}/`)
   const [erroAcao, setErroAcao] = useState(null)
+  const [cancelando, setCancelando] = useState(false)
 
   if (erro) return <Erro erro={erro} tentarDeNovo={recarregar} />
   if (carregando) return <Carregando />
@@ -34,9 +36,8 @@ export function Aula() {
   }
 
   function cancelar() {
-    if (window.confirm('Deseja mesmo cancelar esta aula?')) {
-      executar('cancelar')
-    }
+    setCancelando(false)
+    executar('cancelar')
   }
 
   return (
@@ -74,12 +75,21 @@ export function Aula() {
             </Button>
           )}
           {pode('api.cancelar_agendamento') && ativa && (
-            <Button variant="outline-danger" className="ms-auto" onClick={cancelar}>
+            <Button variant="outline-danger" className="ms-auto" onClick={() => setCancelando(true)}>
               Cancelar
             </Button>
           )}
         </div>
       </Card.Body>
+      <Confirmacao
+        show={cancelando}
+        titulo="Cancelar aula"
+        mensagem="Deseja mesmo cancelar esta aula?"
+        textoConfirmar="Cancelar aula"
+        variante="danger"
+        onConfirmar={cancelar}
+        onFechar={() => setCancelando(false)}
+      />
     </Card>
   )
 }
