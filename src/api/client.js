@@ -1,4 +1,4 @@
-const API = 'http://localhost:8000/api'
+const API = import.meta.env.VITE_API_URL
 export const ORGANIZACAO = 'escola-de-musica'
 
 function enviar(caminho, { method = 'GET', body } = {}) {

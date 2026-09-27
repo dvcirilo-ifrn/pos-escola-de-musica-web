@@ -12,7 +12,15 @@ Feito a partir do *template* React do Vite, com [React Bootstrap](https://react-
     - `npm run dev`
 - Acesse http://localhost:5173
 
-O endereço da API fica em `src/api/client.js`.
+### Endereço da API
+
+O endereço da API vem da variável `VITE_API_URL`, definida no arquivo `.env` (padrão: `http://localhost:8000/api`). Para usar outro endereço sem alterar o `.env`, crie um `.env.local` (ignorado pelo git):
+
+```
+VITE_API_URL=https://endereco-da-api/api
+```
+
+Na hospedagem (Netlify, Vercel, Cloudflare Pages...), defina a variável `VITE_API_URL` nas configurações do projeto. Ela é lida no momento do `npm run build`, então é preciso gerar o *build* de novo ao trocar o endereço.
 
 ## Organização do código
 
