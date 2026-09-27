@@ -4,7 +4,10 @@ import { Layout } from './components/Layout'
 import { Publica } from './components/Publica'
 import { AConfirmar } from './pages/admin/AConfirmar'
 import { Agenda } from './pages/admin/Agenda'
+import { Horarios } from './pages/admin/Horarios'
 import { Negocio } from './pages/admin/Negocio'
+import { EditarRecurso, NovoRecurso } from './pages/admin/Recurso'
+import { Recursos } from './pages/admin/Recursos'
 import { Confirmar } from './pages/agendar/Confirmar'
 import { EscolherHorario } from './pages/agendar/EscolherHorario'
 import { EscolherProfessor } from './pages/agendar/EscolherProfessor'
@@ -48,6 +51,10 @@ function App() {
             <Route path="/admin/agenda" element={<Agenda />} />
             <Route path="/admin/confirmar" element={<AConfirmar />} />
             <Route path="/admin/negocio" element={<Negocio />} />
+            <Route path="/admin/recursos" element={<Recursos />} />
+            <Route path="/admin/recursos/novo" element={<NovoRecurso />} />
+            <Route path="/admin/recursos/:id" element={<EditarRecurso />} />
+            <Route path="/admin/recursos/:id/horarios" element={<Horarios />} />
             <Route path="/professores" element={<Professores />} />
             <Route path="/professores/:id" element={<Professor />} />
             <Route path="*" element={<NaoEncontrado />} />
