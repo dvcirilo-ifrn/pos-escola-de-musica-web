@@ -4,23 +4,32 @@ App de exemplo da disciplina de POS: cliente web em React para a API de agendame
 
 Feito a partir do *template* React do Vite, com [React Bootstrap](https://react-bootstrap.netlify.app/), [Bootstrap Icons](https://icons.getbootstrap.com/) e [React Router](https://reactrouter.com/). O histórico de *commits* mostra o app sendo construído passo a passo.
 
+O app e a API são independentes: o app é só um site estático que conversa com a API pela internet.
+
 ## Rodando
 
 - Instale as dependências:
     - `npm install`
+- Copie o arquivo de exemplo de variáveis de ambiente:
+    - `cp .env.example .env`
+- Preencha o `.env` com o endereço da API e o slug da organização:
+    - `VITE_API_URL`: endereço da API, terminando em `/api`;
+    - `VITE_ORGANIZACAO`: slug da organização usada no cadastro e no login.
 - Rode o app:
     - `npm run dev`
 - Acesse http://localhost:5173
 
-### Endereço da API
+As variáveis são lidas pelo Vite (`import.meta.env`) em `src/api/client.js`. O `.env` não vai para o git.
 
-O endereço da API vem da variável `VITE_API_URL`, definida no arquivo `.env` (padrão: `http://localhost:8000/api`). Para usar outro endereço sem alterar o `.env`, crie um `.env.local` (ignorado pelo git):
+## Publicando na Vercel
 
-```
-VITE_API_URL=https://endereco-da-api/api
-```
+- Importe o repositório na [Vercel](https://vercel.com/): ela reconhece o projeto Vite sozinha (`npm run build`, pasta `dist`);
+- Em **Environment Variables**, defina `VITE_API_URL` e `VITE_ORGANIZACAO`;
+- Faça o *deploy*.
 
-Na hospedagem (Netlify, Vercel, Cloudflare Pages...), defina a variável `VITE_API_URL` nas configurações do projeto. Ela é lida no momento do `npm run build`, então é preciso gerar o *build* de novo ao trocar o endereço.
+As variáveis são lidas no momento do *build*: ao trocar alguma, faça o *deploy* de novo.
+
+O `vercel.json` faz todas as rotas abrirem o `index.html`. Sem ele, recarregar a página em um endereço como `/aulas/9` daria erro 404, porque essas rotas só existem dentro do React (React Router).
 
 ## Organização do código
 

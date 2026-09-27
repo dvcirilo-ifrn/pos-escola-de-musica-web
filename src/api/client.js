@@ -1,5 +1,5 @@
 const API = import.meta.env.VITE_API_URL
-export const ORGANIZACAO = 'escola-de-musica'
+export const ORGANIZACAO = import.meta.env.VITE_ORGANIZACAO
 
 function enviar(caminho, { method = 'GET', body } = {}) {
   const url = caminho.startsWith('http') ? caminho : API + caminho
