@@ -1,19 +1,17 @@
-import { Container, Image, Nav, Navbar } from 'react-bootstrap'
+import { Container, Image, Nav, Navbar, NavDropdown } from 'react-bootstrap'
 import { Link, NavLink } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
 import { Foto } from './Foto'
 
 export function Menu() {
-  const { usuario, pode, inicio } = useAuth()
+  const { usuario, pode, inicio, sair } = useAuth()
   const organizacao = usuario.organizacao
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
         <Navbar.Brand as={Link} to={inicio}>
-          {organizacao.logo
-            ? <Image src={organizacao.logo} height={30} className="me-2" />
-            : <i className="bi bi-music-note-beamed me-2"></i>}
+          <Image src={organizacao.logo ?? '/favicon.png'} height={32} className="me-2" />
           {organizacao.nome}
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="menu" />
@@ -34,9 +32,18 @@ export function Menu() {
             </Nav>
           )}
           <Nav>
-            <Nav.Link as={NavLink} to="/perfil">
-              <Foto src={usuario.foto} tamanho={24} /> {usuario.nome}
-            </Nav.Link>
+            <NavDropdown
+              align="end"
+              title={<><Foto src={usuario.foto} tamanho={24} /> {usuario.nome}</>}
+            >
+              <NavDropdown.Item as={Link} to="/perfil">
+                <i className="bi bi-person"></i> Meu perfil
+              </NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item onClick={sair}>
+                <i className="bi bi-box-arrow-right"></i> Sair
+              </NavDropdown.Item>
+            </NavDropdown>
           </Nav>
         </Navbar.Collapse>
       </Container>
