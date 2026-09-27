@@ -1,37 +1,17 @@
-import { useEffect, useState } from 'react'
 import { Alert, Card, Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { api } from '../api/client'
 import { Carregando } from '../components/Carregando'
 import { Erro } from '../components/Erro'
 import { Foto } from '../components/Foto'
+import { useApi } from '../hooks/useApi'
 
 export function Professores() {
-  const [recursos, setRecursos] = useState(null)
-  const [erro, setErro] = useState(null)
-  const [tentativa, setTentativa] = useState(0)
+  const { dados, erro, carregando, recarregar } = useApi('/recursos/')
 
-  useEffect(() => {
-    let ignore = false
-    api('/recursos/')
-      .then(dados => {
-        if (!ignore) setRecursos(dados.results)
-      })
-      .catch(erro => {
-        if (!ignore) setErro(erro)
-      })
-    return () => {
-      ignore = true
-    }
-  }, [tentativa])
+  if (erro) return <Erro erro={erro} tentarDeNovo={recarregar} />
+  if (carregando) return <Carregando />
 
-  function tentarDeNovo() {
-    setErro(null)
-    setTentativa(tentativa + 1)
-  }
-
-  if (erro) return <Erro erro={erro} tentarDeNovo={tentarDeNovo} />
-  if (!recursos) return <Carregando />
+  const recursos = dados.results
 
   return (
     <>
