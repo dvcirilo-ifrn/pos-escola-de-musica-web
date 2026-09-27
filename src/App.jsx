@@ -7,11 +7,14 @@ import { EscolherHorario } from './pages/agendar/EscolherHorario'
 import { EscolherProfessor } from './pages/agendar/EscolherProfessor'
 import { EscolherServico } from './pages/agendar/EscolherServico'
 import { Enviado } from './pages/agendar/Enviado'
+import { Aula } from './pages/Aula'
+import { Avaliar } from './pages/Avaliar'
 import { Cadastro } from './pages/Cadastro'
 import { Entrada } from './pages/Entrada'
 import { EsqueciSenha } from './pages/EsqueciSenha'
 import { Inicio } from './pages/Inicio'
 import { Login } from './pages/Login'
+import { MinhasAulas } from './pages/MinhasAulas'
 import { NaoEncontrado } from './pages/NaoEncontrado'
 import { Perfil } from './pages/Perfil'
 import { Professor } from './pages/Professor'
@@ -35,6 +38,9 @@ function App() {
             <Route path="/agendar/horario" element={<EscolherHorario />} />
             <Route path="/agendar/confirmar" element={<Confirmar />} />
             <Route path="/agendar/enviado" element={<Enviado />} />
+            <Route path="/aulas" element={<MinhasAulas />} />
+            <Route path="/aulas/:id" element={<Aula />} />
+            <Route path="/aulas/:id/avaliar" element={<Avaliar />} />
             <Route path="/perfil" element={<Perfil />} />
             <Route path="/professores" element={<Professores />} />
             <Route path="/professores/:id" element={<Professor />} />
