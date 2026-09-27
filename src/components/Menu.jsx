@@ -11,7 +11,7 @@ export function Menu() {
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
         <Navbar.Brand as={Link} to={inicio}>
-          <Image src={organizacao.logo ?? '/favicon.png'} height={32} className="me-2" />
+          <Image src="/favicon.png" height={32} className="me-2" />
           {organizacao.nome}
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="menu" />
