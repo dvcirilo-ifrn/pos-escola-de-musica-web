@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { Alert, Button, Card, Col, Form, Row } from 'react-bootstrap'
+import { Link, useLocation } from 'react-router-dom'
 import { api, mensagemDeErro } from '../api/client'
 import { useAuth } from '../AuthContext'
 import { Foto } from '../components/Foto'
 
 export function Perfil() {
   const { usuario, setUsuario, sair } = useAuth()
+  const location = useLocation()
   const [nome, setNome] = useState(usuario.nome)
   const [foto, setFoto] = useState(null)
   const [erro, setErro] = useState(null)
@@ -46,10 +48,11 @@ export function Perfil() {
               <div className="text-secondary">{usuario.email}</div>
               <div className="text-secondary">{usuario.organizacao.nome}</div>
             </div>
-    
+
             {erro && <Alert variant="danger">{erro}</Alert>}
             {salvo && <Alert variant="success">Perfil atualizado.</Alert>}
-    
+            {location.state?.mensagem && <Alert variant="success">{location.state.mensagem}</Alert>}
+
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="nome">
                 <Form.Label>Nome</Form.Label>
@@ -68,7 +71,10 @@ export function Perfil() {
                     Remover foto
                   </Button>
                 )}
-                <Button variant="outline-danger" className="ms-auto" onClick={sair}>
+                <Button as={Link} to="/perfil/senha" variant="outline-primary" className="ms-auto">
+                  <i className="bi bi-key"></i> Alterar senha
+                </Button>
+                <Button variant="outline-danger" onClick={sair}>
                   <i className="bi bi-box-arrow-right"></i> Sair
                 </Button>
               </div>

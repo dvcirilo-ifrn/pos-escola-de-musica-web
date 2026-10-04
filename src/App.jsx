@@ -12,6 +12,7 @@ import { Recursos } from './pages/admin/Recursos'
 import { EditarServico, NovoServico } from './pages/admin/Servico'
 import { Servicos } from './pages/admin/Servicos'
 import { Confirmar } from './pages/agendar/Confirmar'
+import { AlterarSenha } from './pages/AlterarSenha'
 import { EscolherHorario } from './pages/agendar/EscolherHorario'
 import { EscolherProfessor } from './pages/agendar/EscolherProfessor'
 import { EscolherServico } from './pages/agendar/EscolherServico'
@@ -51,6 +52,7 @@ function App() {
             <Route path="/aulas/:id" element={<Aula />} />
             <Route path="/aulas/:id/avaliar" element={<Avaliar />} />
             <Route path="/perfil" element={<Perfil />} />
+            <Route path="/perfil/senha" element={<AlterarSenha />} />
             <Route path="/admin/agenda" element={<Agenda />} />
             <Route path="/admin/confirmar" element={<AConfirmar />} />
             <Route path="/admin/negocio" element={<Negocio />} />
